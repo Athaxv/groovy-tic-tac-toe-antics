@@ -6,19 +6,32 @@ import { cn } from "@/lib/utils";
 import GameCell from "./GameCell";
 import GameStatus from "./GameStatus";
 import GameControls from "./GameControls";
+import { Button } from "@/components/ui/button";
+import { RefreshCw, Home } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { checkWinner, makeComputerMove } from "@/lib/game-logic";
 
 type Player = "X" | "O" | null;
 type GameMode = "player" | "computer";
 
-const GameBoard: React.FC = () => {
+interface GameBoardProps {
+  initialGameMode?: GameMode;
+}
+
+const GameBoard: React.FC<GameBoardProps> = ({ initialGameMode = "player" }) => {
+  const navigate = useNavigate();
   const [board, setBoard] = useState<Player[]>(Array(9).fill(null));
   const [currentPlayer, setCurrentPlayer] = useState<Player>("X");
   const [winner, setWinner] = useState<Player | "draw" | null>(null);
   const [winningCells, setWinningCells] = useState<number[]>([]);
   const [scores, setScores] = useState({ X: 0, O: 0, draw: 0 });
-  const [gameMode, setGameMode] = useState<GameMode>("player");
+  const [gameMode, setGameMode] = useState<GameMode>(initialGameMode);
   const [isComputerThinking, setIsComputerThinking] = useState(false);
+
+  // Use the initialGameMode when component mounts
+  useEffect(() => {
+    changeGameMode(initialGameMode);
+  }, [initialGameMode]);
 
   // Reset game
   const resetGame = () => {
@@ -185,6 +198,35 @@ const GameBoard: React.FC = () => {
             />
           ))}
         </motion.div>
+        
+        {/* Post-game actions */}
+        {winner && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="flex flex-col sm:flex-row justify-center gap-4 mt-6"
+          >
+            <Button 
+              onClick={resetGame}
+              className="flex items-center gap-2"
+              size="lg"
+            >
+              <RefreshCw size={18} />
+              Play Again
+            </Button>
+            
+            <Button 
+              variant="outline"
+              onClick={() => navigate("/")}
+              className="flex items-center gap-2"
+              size="lg"
+            >
+              <Home size={18} />
+              Main Menu
+            </Button>
+          </motion.div>
+        )}
       </div>
     </div>
   );

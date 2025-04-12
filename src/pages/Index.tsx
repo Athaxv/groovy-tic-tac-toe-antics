@@ -1,12 +1,27 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import GameBoard from "@/components/GameBoard";
+import { motion } from "framer-motion";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen w-full bg-gradient-to-br from-purple-100 via-indigo-50 to-blue-100 py-8">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="container mx-auto px-4"
+      >
+        <GameBoard />
+        
+        <motion.div 
+          className="mt-8 text-center text-muted-foreground text-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+        >
+          <p>Made with 💜 by Lovable</p>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

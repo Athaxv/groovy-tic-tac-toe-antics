@@ -43,7 +43,7 @@ const Game = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          <p>Made with 💜 by Lovable</p>
+          <p>Made with 💜 by Atharv Gaur</p>
         </motion.div>
       </motion.div>
     </div>
